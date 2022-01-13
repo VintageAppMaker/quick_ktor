@@ -12,6 +12,8 @@ import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.mustache.Mustache
 import io.ktor.mustache.MustacheContent
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -27,8 +29,15 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
+    install(CallLogging) {
+        filter { call ->
+            call.request.path().startsWith("/html-dsl")
+        }
+    }
+
     routing {
         get("/") {
+            call.application.environment.log.info("Hot WORLD!")
             call.respondText("Hot WORLD!", contentType = ContentType.Text.Plain)
         }
 
@@ -55,6 +64,9 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 }
+
+
+
 
 data class MustacheUser(val id: Int, val name: String)
 data class User(val id: Int, val name: String)
