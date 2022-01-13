@@ -60,6 +60,7 @@ fun Application.module(testing: Boolean = false) {
 
         get("/json/gson") {
             //call.respond(mapOf("hello" to "world"))
+
             call.respond(User(1, "test"))
         }
     }
