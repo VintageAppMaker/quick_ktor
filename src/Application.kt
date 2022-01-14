@@ -66,9 +66,6 @@ fun Application.module(testing: Boolean = false) {
     }
 }
 
-
-
-
 data class MustacheUser(val id: Int, val name: String)
 data class User(val id: Int, val name: String)
 

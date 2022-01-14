@@ -1,4 +1,4 @@
-#### 1. QuickStart
+## 1. QuickStart
 > 빠르게 시작하기 
 
 1. 플러그인 설치
