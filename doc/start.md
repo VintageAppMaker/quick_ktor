@@ -77,6 +77,17 @@ fun Application.module(testing: Boolean = false) {
 
 [참고링크](https://ktor.io/docs/routing-in-ktor.html#define_route) 를 요약함 
 
+- install 사용
+
+  install 함수를 사용하면 원하는 객체를 사용할 수 있다. 첫번째 파라메터는 ApplicationFeature형의 클래스이다. 
+  두번째 파라메터는 초기화 및 환경설정을 실행하는 클로져(configuration)로 필요에 기능을 구현하기도 비어놓은 상태로 사용하기도 한다.   
+  
+~~~kotlin
+install(Routing) {
+  // ...
+}
+~~~
+
 - Routing 사용
   
   routing() 함수는 url을 분기처리하는 함수이다.
