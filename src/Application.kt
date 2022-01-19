@@ -36,33 +36,46 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
-        get("/") {
-            call.application.environment.log.info("Hot WORLD!")
-            call.respondText("Hot WORLD!", contentType = ContentType.Text.Plain)
-        }
+        logRoute()
+        dslRoute()
+        mustacheRoute()
+        gsonRoute()
+    }
+}
 
-        get("/html-dsl") {
-            call.respondHtml {
-                body {
-                    h1 { +"HTML" }
-                    ul {
-                        for (n in 1..10) {
-                            li { +"$n" }
-                        }
+private fun Routing.gsonRoute() {
+    get("/json/gson") {
+        //call.respond(mapOf("hello" to "world"))
+
+        call.respond(User(1, "test"))
+    }
+}
+
+private fun Routing.mustacheRoute() {
+    get("/html-mustache") {
+        call.respond(MustacheContent("index.hbs", mapOf("user" to MustacheUser(1, "user1"))))
+    }
+}
+
+private fun Routing.dslRoute() {
+    get("/html-dsl") {
+        call.respondHtml {
+            body {
+                h1 { +"HTML" }
+                ul {
+                    for (n in 1..10) {
+                        li { +"$n" }
                     }
                 }
             }
         }
+    }
+}
 
-        get("/html-mustache") {
-            call.respond(MustacheContent("index.hbs", mapOf("user" to MustacheUser(1, "user1"))))
-        }
-
-        get("/json/gson") {
-            //call.respond(mapOf("hello" to "world"))
-
-            call.respond(User(1, "test"))
-        }
+private fun Routing.logRoute() {
+    get("/") {
+        call.application.environment.log.info("Hot WORLD!")
+        call.respondText("Hot WORLD!", contentType = ContentType.Text.Plain)
     }
 }
 

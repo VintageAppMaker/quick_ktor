@@ -74,3 +74,78 @@ fun Application.module(testing: Boolean = false) {
 
 
 2. install, routing
+
+[참고링크](https://ktor.io/docs/routing-in-ktor.html#define_route) 를 요약함 
+
+- Routing 사용
+  
+  routing() 함수는 url을 분기처리하는 함수이다.
+  주로 진입점이 되는 함수에서 사용되고 Application 확장함수이다.
+  크게 2가지 방법으로 사용된다. 첫 번째는
+~~~kotlin
+import io.ktor.routing.*
+install(Routing) {
+    
+}
+~~~
+과 같은 방법이 있다. 그러나 더 간편하게 클로져 형태로 사용할 수도 있다.
+~~~kotlin
+routing {
+
+}
+~~~
+
+- Routing 핸들러 정의 
+
+  routing{} 안에서 route() 함수를 사용한다. 
+  첫번째 파라메터는 uri이고 두번째 파라메터는 Http 요청의 종류이다. 
+  
+~~~kotlin
+import io.ktor.routing.*
+import io.ktor.http.*
+import io.ktor.response.*
+
+routing {
+    route("/hello", HttpMethod.Get) {
+        handle {
+            call.respondText("Hello")
+        }
+    }
+}
+~~~
+
+위의 방법보다 더 간소화된 방법은 다음과 같다. 
+
+~~~kotlin
+import io.ktor.routing.*
+import io.ktor.response.*
+
+routing {
+    get("/hello") {
+        call.respondText("Hello")
+    }
+}
+~~~
+route() 함수대신에 http 요청에 따라 get(), post(), put(), delete() 함수를 사용하며 파라메터는 요청 uri이다. 
+
+
+- 패턴
+  - 변수치환
+    
+    {변수}로 되어있는 경우는 핸들러 안에서 변수로 사용가능하다. 예로 /user/{name}이라면 name 변수를 사용가능하다.
+  - "*"를 이용한 패턴
+    
+    "*" 를 이용한 패턴은 /다음의 어떤 문자열이 와도 매칭이 되는 경우이다. /user/*는 /user/add와 매칭이 된다. 단, null 인경우(/user/)는 매칭되지 않는다.
+  - "{...}"를 이용한 패턴 
+
+    "{...}" 를 이용한 패턴은 /다음의 하부주소까지 패턴을 적용한다. /user/{...}는 /user/info/setting과 매칭이 된다. 
+
+그리고 라우팅되는 파라메터는 call 객체의 parameters를 이용하여 액세스 가능하다. 
+~~~kotlin
+get("/user/{login}") {
+    if (call.parameters["login"] == "admin") {
+        // ...
+    }
+}
+~~~
+
