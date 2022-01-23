@@ -94,7 +94,7 @@ private fun Routing.parameterRoute() {
 
         if(call.parameters["action"] == "add"){
             val value1  =  call.request.queryParameters["value1"]
-            val sum     = 10  +   if ( value1 is String) value1.toInt() else 0
+            val sum     = 10  +   if ( value1 is String) value1.trim().toInt() else 0
             val resText = "10 + ${value1}(value1) = ${sum}"
             call.respondText(resText, contentType = ContentType.Text.Plain)
         }

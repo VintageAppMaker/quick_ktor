@@ -27,6 +27,11 @@ private fun Routing.logRoute() {
     }
 }
 ~~~
+
+postman 결과화면 
+![](images/request_1_postman.jpg)
+
+
 경로명에 라우팅되는 파라메터들을 **call.parameters**를 통해 값을 가져올 수 있다. 
 ~~~kotlin
 get("/user/{action}") {
@@ -41,16 +46,19 @@ private fun Routing.parameterRoute() {
     get("/param/{action}") {
 
         if(call.parameters["action"] == "add"){
-            val value1  =  call.request.queryParameters["value1"]
-            val sum     = 10  +   if ( value1 is String) value1.toInt() else 0
-            val resText = "10 + ${value1}(value1) = ${sum}"
-            call.respondText(resText, contentType = ContentType.Text.Plain)
+           val value1  =  call.request.queryParameters["value1"]
+           val sum     = 10  +   if ( value1 is String) value1.trim().toInt() else 0
+           val resText = "10 + ${value1}(value1) = ${sum}"
+           call.respondText(resText, contentType = ContentType.Text.Plain)
         }
 
     }
 }
 
 ~~~
+
+postman 결과화면
+![](images/request_2_postman.jpg)
 
 4. 고급 파라메터 처리 
    - Objects
@@ -73,7 +81,9 @@ val  userList : MutableList<User> = mutableListOf()
 data class User(val id: Int, val name: String)
 
 ~~~
-     
+
+postman 결과화면
+![](images/request_3_postman.jpg)     
 
    - Form 
    - Multipart 
