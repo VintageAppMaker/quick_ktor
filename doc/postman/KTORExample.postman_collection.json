@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "17ba63b6-4cb2-488f-ad5e-8b205ea9d3fd",
+		"_postman_id": "87bb5324-5502-4b23-86e8-47306d6df963",
 		"name": "KTOR공부",
 		"description": "### KTOR Quick Start\n> KTOR 예제를 테스트하기 위한 Client\n\n- 홈\n- Gson\n- html-mustache",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -47,6 +47,27 @@
 			"response": []
 		},
 		{
+			"name": "html-dsl",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/html-dsl",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"html-dsl"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "html-mustache",
 			"request": {
 				"method": "GET",
@@ -62,6 +83,34 @@
 					"port": "8080",
 					"path": [
 						"html-mustache"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "parameter 라우팅",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/param/add?value1=100 ",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"param",
+						"add"
+					],
+					"query": [
+						{
+							"key": "value1",
+							"value": "100 "
+						}
 					]
 				}
 			},
@@ -93,34 +142,6 @@
 					"path": [
 						"post",
 						"addObject"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "parameter 라우팅",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "127.0.0.1:8080/param/add?value1=100 ",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8080",
-					"path": [
-						"param",
-						"add"
-					],
-					"query": [
-						{
-							"key": "value1",
-							"value": "100 "
-						}
 					]
 				}
 			},
