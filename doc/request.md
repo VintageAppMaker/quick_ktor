@@ -28,7 +28,8 @@ private fun Routing.logRoute() {
 }
 ~~~
 
-postman 결과화면 
+postman 결과화면
+
 ![](images/request_1_postman.jpg)
 
 
@@ -58,6 +59,7 @@ private fun Routing.parameterRoute() {
 ~~~
 
 postman 결과화면
+
 ![](images/request_2_postman.jpg)
 
 4. 고급 파라메터 처리 
@@ -83,6 +85,7 @@ data class User(val id: Int, val name: String)
 ~~~
 
 postman 결과화면
+
 ![](images/request_3_postman.jpg)     
 
    - Form 
