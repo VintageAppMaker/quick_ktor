@@ -1,4 +1,4 @@
-##3. request
+## 3. request
 > 클라이언트 요청처리 방법은 call 객체의 request를 사용한다. 
 
 1. call.request 
