@@ -40,6 +40,7 @@ fun Application.module(testing: Boolean = false) {
         dslRoute()
         mustacheRoute()
         gsonRoute()
+        parameterRoute()
     }
 }
 
@@ -74,10 +75,28 @@ private fun Routing.dslRoute() {
 
 private fun Routing.logRoute() {
     get("/") {
-        call.application.environment.log.info("Hot WORLD!")
-        call.respondText("Hot WORLD!", contentType = ContentType.Text.Plain)
+        val path    = call.request.uri
+        val path2   = call.request.path()
+        val resText = "Hot WORLD! uri=${path} path()=${path2} headers = ${call.request.headers.names()} headers[\"User-Agent\"]} = ${call.request.headers["User-Agent"]}"
+        call.application.environment.log.info(resText)
+        call.respondText(resText, contentType = ContentType.Text.Plain)
+
     }
 }
+
+private fun Routing.parameterRoute() {
+    get("/param/{action}") {
+
+        if(call.parameters["action"] == "add"){
+            val value1  =  call.request.queryParameters["value1"]
+            val sum     = 10  +   if ( value1 is String) value1.toInt() else 0
+            val resText = "10 + ${value1}(value1) = ${sum}"
+            call.respondText(resText, contentType = ContentType.Text.Plain)
+        }
+
+    }
+}
+
 
 data class MustacheUser(val id: Int, val name: String)
 data class User(val id: Int, val name: String)
