@@ -54,6 +54,27 @@ private fun Routing.parameterRoute() {
 
 4. 고급 파라메터 처리 
    - Objects
+
+post 방식으로 body에 json 형식의 데이터를 전송한다. 그리고 그 정보로 data class를 정의한 후, call.receive<데이터형>()으로 수신받는다.      
+~~~kotlin
+post("/post/addObject"){
+    val addUser = call.receive<User>()
+    userList.add(addUser)
+    var info = ""
+    userList.forEach { info += "${it.id} : ${it.name} \n" }
+    call.respondText(
+       "addUser => ${addUser.id} \n ${info}", 
+       status = HttpStatusCode.Created)
+}
+
+   ...
+
+val  userList : MutableList<User> = mutableListOf()
+data class User(val id: Int, val name: String)
+
+~~~
+     
+
    - Form 
    - Multipart 
    - raw payload

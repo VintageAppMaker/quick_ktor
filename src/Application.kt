@@ -44,6 +44,7 @@ fun Application.module(testing: Boolean = false) {
     }
 }
 
+// gson example
 private fun Routing.gsonRoute() {
     get("/json/gson") {
         //call.respond(mapOf("hello" to "world"))
@@ -52,12 +53,14 @@ private fun Routing.gsonRoute() {
     }
 }
 
+// mustache example
 private fun Routing.mustacheRoute() {
     get("/html-mustache") {
         call.respond(MustacheContent("index.hbs", mapOf("user" to MustacheUser(1, "user1"))))
     }
 }
 
+// html dsl example
 private fun Routing.dslRoute() {
     get("/html-dsl") {
         call.respondHtml {
@@ -73,6 +76,7 @@ private fun Routing.dslRoute() {
     }
 }
 
+// log 출력 example
 private fun Routing.logRoute() {
     get("/") {
         val path    = call.request.uri
@@ -84,6 +88,7 @@ private fun Routing.logRoute() {
     }
 }
 
+// parameter example
 private fun Routing.parameterRoute() {
     get("/param/{action}") {
 
@@ -95,9 +100,19 @@ private fun Routing.parameterRoute() {
         }
 
     }
+
+    post("/post/addObject"){
+        val addUser = call.receive<User>()
+        userList.add(addUser)
+        var info = ""
+        userList.forEach { info += "${it.id} : ${it.name} \n" }
+        call.respondText("addUser => ${addUser.id} \n ${info}", status = HttpStatusCode.Created)
+    }
 }
 
 
+// example data
+val  userList : MutableList<User> = mutableListOf()
 data class MustacheUser(val id: Int, val name: String)
 data class User(val id: Int, val name: String)
 
