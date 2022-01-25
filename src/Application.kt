@@ -10,10 +10,12 @@ import kotlinx.html.*
 import com.github.mustachejava.DefaultMustacheFactory
 import io.ktor.features.*
 import io.ktor.gson.*
+import io.ktor.http.content.*
 import io.ktor.mustache.Mustache
 import io.ktor.mustache.MustacheContent
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -115,6 +117,28 @@ private fun Routing.parameterRoute() {
         val money   = formParam["money"].toString()
 
         call.respondText("account => '$account' money => ${money}")
+    }
+
+    post("/post/upload") {
+        val multipartData = call.receiveMultipart()
+
+        var fName = ""
+        var nSize = 0
+        multipartData.forEachPart { part ->
+            when (part) {
+                is PartData.FormItem -> {
+                    call.application.environment.log.info( "${part.name} = ${part.value}" )
+                }
+                is PartData.FileItem -> {
+                    fName = part.originalFileName as String
+
+                    var fileBytes = part.streamProvider().readBytes()
+                    File("$fName").writeBytes(fileBytes)
+                }
+            }
+        }
+
+        call.respondText(" 'uploads/$fName' ${nSize}")
     }
 }
 

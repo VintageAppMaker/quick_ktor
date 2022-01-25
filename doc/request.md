@@ -108,6 +108,5 @@ postman 결과화면
 
 
    - Multipart 
-   - raw payload
-
+   
 
