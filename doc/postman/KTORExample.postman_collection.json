@@ -47,27 +47,6 @@
 			"response": []
 		},
 		{
-			"name": "html-dsl",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "127.0.0.1:8080/html-dsl",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8080",
-					"path": [
-						"html-dsl"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "html-mustache",
 			"request": {
 				"method": "GET",
@@ -83,6 +62,27 @@
 					"port": "8080",
 					"path": [
 						"html-mustache"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "html-dsl",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/html-dsl",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"html-dsl"
 					]
 				}
 			},
@@ -142,6 +142,43 @@
 					"path": [
 						"post",
 						"addObject"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "form data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "account",
+							"value": "snake",
+							"type": "text"
+						},
+						{
+							"key": "money",
+							"value": "10000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/post/register",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"post",
+						"register"
 					]
 				}
 			},
