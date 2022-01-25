@@ -89,6 +89,24 @@ postman 결과화면
 ![](images/request_3_postman.jpg)     
 
    - Form 
+
+form 형식의 데이터를 처리하고자 한다면 call.receiveParameters()에서 객체를 받아온 후, []안에 필드명을 입력하여 사용가능하다.     
+~~~kotlin
+post("/post/register"){
+   val formParam = call.receiveParameters()
+   val account = formParam["account"].toString()
+   val money   = formParam["money"].toString()
+
+   call.respondText("account => '$account' money => ${money}")
+}
+
+~~~
+
+postman 결과화면
+
+![](images/request_4_postman.jpg)
+
+
    - Multipart 
    - raw payload
 

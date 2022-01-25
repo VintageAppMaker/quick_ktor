@@ -108,6 +108,14 @@ private fun Routing.parameterRoute() {
         userList.forEach { info += "${it.id} : ${it.name} \n" }
         call.respondText("addUser => ${addUser.id} \n ${info}", status = HttpStatusCode.Created)
     }
+
+    post("/post/register"){
+        val formParam = call.receiveParameters()
+        val account = formParam["account"].toString()
+        val money   = formParam["money"].toString()
+
+        call.respondText("account => '$account' money => ${money}")
+    }
 }
 
 
