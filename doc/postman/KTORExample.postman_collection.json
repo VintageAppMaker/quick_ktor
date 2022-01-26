@@ -183,6 +183,43 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "fileUpload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "filename",
+							"value": "1.jpg",
+							"type": "text"
+						},
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Users/crack/OneDrive/바탕 화면/1.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/post/upload",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"post",
+						"upload"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
