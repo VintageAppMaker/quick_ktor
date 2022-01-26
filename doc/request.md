@@ -108,5 +108,32 @@ postman 결과화면
 
 
    - Multipart 
-   
 
+멀티파트로 업로드시 파일데이터와 기타 필드를 처리하고자 한다면 call.receiveMultipart()로 MultiPartData 객체를 가져온 후,
+forEachPart()를 통해 PartData 값을 비교분기하여 처리한다. PartData는 FormItem일 경우, 필드값이며 FileItem일 경우 파일데이터이다. 
+
+~~~kotlin
+
+post("/post/upload") {
+    val multipartData = call.receiveMultipart()
+
+    var fName = ""
+    var nSize = 0
+    multipartData.forEachPart { part ->
+        when (part) {
+            is PartData.FormItem -> {
+                call.application.environment.log.info( "${part.name} = ${part.value}" )
+            }
+            is PartData.FileItem -> {
+                fName = part.originalFileName as String
+
+                var fileBytes = part.streamProvider().readBytes()
+                File("$fName").writeBytes(fileBytes)
+            }
+        }
+    }
+
+    call.respondText(" 'uploads/$fName' ${nSize}")
+}
+
+~~~
