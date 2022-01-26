@@ -13,8 +13,6 @@ import io.ktor.gson.*
 import io.ktor.http.content.*
 import io.ktor.mustache.Mustache
 import io.ktor.mustache.MustacheContent
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.io.File
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -42,7 +40,7 @@ fun Application.module(testing: Boolean = false) {
         dslRoute()
         mustacheRoute()
         gsonRoute()
-        parameterRoute()
+        requestRoute()
     }
 }
 
@@ -90,8 +88,8 @@ private fun Routing.logRoute() {
     }
 }
 
-// parameter example
-private fun Routing.parameterRoute() {
+// request parameter example
+private fun Routing.requestRoute() {
     get("/param/{action}") {
 
         if(call.parameters["action"] == "add"){
