@@ -41,7 +41,26 @@ fun Application.module(testing: Boolean = false) {
         mustacheRoute()
         gsonRoute()
         requestRoute()
+        responseEtcRoute()
     }
+}
+// response 관련
+private fun Routing.responseEtcRoute(){
+    get("/status500"){
+        call.response.status(HttpStatusCode(500, ""))
+        call.respondText("<h1>500 error \uD83D\uDE16 </h1>", ContentType.Text.Html)
+    }
+
+    get("/cookies"){
+        call.response.cookies.append("name", "LL Cool J")
+        call.respondText("<h1>cookie is set </h1>", ContentType.Text.Html)
+    }
+
+    get("/redirect") {
+        call.respondRedirect("https://www.google.com", permanent = true)
+    }
+
+
 }
 
 // gson example

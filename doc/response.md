@@ -77,11 +77,59 @@ fun Application.main() {
     }
 }
 ~~~
-5. etc 
-   - header
-   - cookies
-   - content type, status
-   - redirect
-   
 
+4. status
+   
+call.response.status()를 호출하며 HttpStatusCode 객체를 넘긴다.HttpStatusCode의 첫번째 파라메터는 HTTP code값이고 두번째는 설명이다. 
+~~~kotlin
+private fun Routing.statusHeaderRoute(){
+    get("/status500"){
+        call.response.status(HttpStatusCode(500, ""))
+        call.respondText("<h1>500 error \uD83D\uDE16 </h1>", ContentType.Text.Html)
+    }
+}
+~~~
+
+5. header
+
+header의 값을 설정하기 위해서는 
+- call.response.header[]에 필드명과 값을 넣는 방법
+- call.response.headers에 append() 메소드로 필드명과 값을 추가하는 방법
+
+이 있다. 
+~~~
+get("/headers") {
+    call.response.headers.append("Some field", "Some value")
+}
+
+...
+
+get("/header") {
+    call.response.header("Some field", "Some value")
+}
+~~~
+
+6. cookies
+
+call.response.cookies.append()를 통해 키와 값을 전달하여 추가할 수 있다. 
+~~~kotlin
+get("/cookies"){
+    call.response.cookies.append("name", "LL Cool J")
+    call.respondText("<h1>cookie is set </h1>", ContentType.Text.Html)
+}
+~~~
+
+![](images/response_1_chrome.jpg)
+
+   
+7. redirect
+
+call.respondRedirect()를 호출하여 리다이렉션할 주소를 넘긴다. 
+~~~kotlin
+
+get("/redirect") {
+    call.respondRedirect("https://www.google.com", permanent = true)
+}
+
+~~~
    
