@@ -60,7 +60,6 @@ private fun Routing.responseEtcRoute(){
         call.respondRedirect("https://www.google.com", permanent = true)
     }
 
-
 }
 
 // gson example
