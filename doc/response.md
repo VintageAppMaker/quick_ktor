@@ -37,6 +37,7 @@ private fun Routing.dslRoute() {
 ~~~
 
 2. object
+
 json 형태의 클래스나 각종 템플릿(mustache, FreeMaker)을 변환하여 text로 응답하려면 call.respond()를 호출한다.   
 
 
