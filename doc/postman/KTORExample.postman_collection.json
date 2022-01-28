@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "87bb5324-5502-4b23-86e8-47306d6df963",
+		"_postman_id": "5b3bfe48-a58e-4691-a338-b839987c58dc",
 		"name": "KTOR공부",
 		"description": "### KTOR Quick Start\n> KTOR 예제를 테스트하기 위한 Client\n\n- 홈\n- Gson\n- html-mustache",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -216,6 +216,67 @@
 					"path": [
 						"post",
 						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "jwt request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"test\",\r\n    \"passwd\": \"aaaaa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/generate_token",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"generate_token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "jwt header auth",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsInBhc3N3b3JkIjoiYWFhYWEiLCJpc3MiOiJjb20ucHN3IiwibmFtZSI6InRlc3QiLCJleHAiOjE2NDM0NDYyODh9.7qn3MAJhquZ_bVBd0Wt2RWBffq_E_MIG0_KsweITfNxpUGZwlCmTBSAnfTphbWomFs8hAvNaDJVUBYdieqPO5g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/authenticate",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"authenticate"
 					]
 				}
 			},

@@ -8,6 +8,8 @@ import io.ktor.http.*
 import io.ktor.html.*
 import kotlinx.html.*
 import com.github.mustachejava.DefaultMustacheFactory
+import io.ktor.auth.*
+import io.ktor.auth.jwt.*
 import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.http.content.*
@@ -35,6 +37,22 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
+    install(Authentication) {
+        jwt {
+            verifier(JwtConfig.verifier)
+            realm = JwtConfig.issuer
+            validate {
+                val name = it.payload.getClaim("name").asString()
+                val password = it.payload.getClaim("password").asString()
+                if(name != null && password != null){
+                    Account(name, password )
+                }else{
+                    null
+                }
+            }
+        }
+    }
+
     routing {
         logRoute()
         dslRoute()
@@ -42,6 +60,7 @@ fun Application.module(testing: Boolean = false) {
         gsonRoute()
         requestRoute()
         responseEtcRoute()
+        authRouting()
     }
 }
 // response 관련
@@ -155,6 +174,25 @@ private fun Routing.requestRoute() {
         call.respondText(" 'uploads/$fName' ${nSize}")
     }
 }
+
+private fun Routing.authRouting(){
+    post("/generate_token"){
+        val user = call.receive<Account>()
+        print("${user.name} , pwd= ${user.passwd}")
+        val token = JwtConfig.generateToken(user)
+        call.respond(token)
+
+    }
+
+    authenticate{
+        get("/authenticate"){
+            val account = call.principal<Account>()
+            call.respond("get authenticated value from token " +
+                    "name = ${account?.name}, password= ${account?.passwd}")
+        }
+    }
+}
+
 
 
 // example data
