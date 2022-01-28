@@ -65,8 +65,6 @@ private fun Routing.responseEtcRoute(){
 // gson example
 private fun Routing.gsonRoute() {
     get("/json/gson") {
-        //call.respond(mapOf("hello" to "world"))
-
         call.respond(User(1, "test"))
     }
 }
