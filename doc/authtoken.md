@@ -55,3 +55,56 @@ object JwtHelper {
 }
 
 ~~~
+
+
+3. plugin을 install 한다. 
+   
+verifier에 JwtHelper에 정의해놓은 JWTVerifier값을 대입한다. 그리고 realm에는 토큰발급자 정보를 대입한다. validate에서는 JWTToken에 저장된 값을 Authentication의 세션정보에 저장한다. 
+~~~kotlin
+install(Authentication) {
+    jwt {
+        verifier(JwtHelper.verifier)
+        realm = JwtHelper.issuer
+        validate {
+            val name = it.payload.getClaim("name").asString()
+            val password = it.payload.getClaim("password").asString()
+            if(name != null && password != null){
+                Account(name, password )
+            }else{
+                null
+            }
+        }
+    }
+}
+
+
+~~~
+
+4. JWTToken을 생성하고 HTTP Auth header에서 대입시켜 통신한다.
+   
+JwtHelper.buildToken()에 Principal로 상속된 dataclass를 넘긴다. 클라이언트에서는 http header의 Authorization 영역(Authorization: Bearer 토큰)에서 대입시켜 통신한다. 
+그리고 JWT Token의 payload에 저장된 값을 가지고 오고자 한다면 Principal로 상속하여 정의했던 클래스를 call.principal<데이터형>()으로 가져오면 된다. 
+~~~kotlin
+
+private fun Routing.authRouting(){
+    post("/generate_token"){
+        val user = call.receive<Account>()
+        print("${user.name} , pwd= ${user.passwd}")
+        val token = JwtHelper.buildToken(user)
+        call.respond(token)
+
+    }
+
+    authenticate{
+        get("/authenticate"){
+            val account = call.principal<Account>()
+            call.respond("get authenticated value from token " +
+                    "name = ${account?.name}, password= ${account?.passwd}")
+        }
+    }
+}
+
+
+~~~
+
+![](images/auth_jwt_1.jpg)

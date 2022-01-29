@@ -7,5 +7,6 @@
 3. [request 처리](/doc/request.md)
 4. [response 처리](/doc/response.md)
 5. [직렬화](/doc/serialization.md)
+6. [인증](/doc/authtoken.md)
 
 
