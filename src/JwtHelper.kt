@@ -1,20 +1,5 @@
-## 6. auth token
-> jwt를 이용한 인증방법  
+package com.psw
 
-[참고링크](https://github.com/imran4u/ktor-jwt-example)
-
-1. gradle 설정
-
-jwt외에도 부가적으로 필요한 라이브러리를 추가한다. 
-~~~
-implementation "io.ktor:ktor-auth:$ktor_version"
-implementation "io.ktor:ktor-auth-jwt:$ktor_version"
-implementation "io.ktor:ktor-server-sessions:$ktor_version"
-~~~
-
-2. jwt를 관리할 클래스를 만든다. 
-
-~~~kotlin
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
@@ -22,7 +7,7 @@ import io.ktor.auth.Principal
 import java.util.*
 
 
-// session을 위한 data 클래스 
+// session을 위한 data 클래스
 // import io.ktor.auth.Principal 임을 반드시 채크
 data class Account(
     var name: String,
@@ -53,5 +38,3 @@ object JwtHelper {
     private fun getExpTime() = Date(System.currentTimeMillis() + validTime)
 
 }
-
-~~~

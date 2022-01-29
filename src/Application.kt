@@ -39,8 +39,8 @@ fun Application.module(testing: Boolean = false) {
 
     install(Authentication) {
         jwt {
-            verifier(JwtConfig.verifier)
-            realm = JwtConfig.issuer
+            verifier(JwtHelper.verifier)
+            realm = JwtHelper.issuer
             validate {
                 val name = it.payload.getClaim("name").asString()
                 val password = it.payload.getClaim("password").asString()
@@ -179,7 +179,7 @@ private fun Routing.authRouting(){
     post("/generate_token"){
         val user = call.receive<Account>()
         print("${user.name} , pwd= ${user.passwd}")
-        val token = JwtConfig.generateToken(user)
+        val token = JwtHelper.buildToken(user)
         call.respond(token)
 
     }
