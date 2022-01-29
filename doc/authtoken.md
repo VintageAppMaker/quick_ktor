@@ -82,8 +82,8 @@ install(Authentication) {
 
 4. JWTToken을 생성하고 HTTP Auth header에서 대입시켜 통신한다.
    
-JwtHelper.buildToken()에 Principal로 상속된 dataclass를 넘긴다. 클라이언트에서는 http header의 Authorization 영역(Authorization: Bearer 토큰)에서 대입시켜 통신한다. 
-그리고 JWT Token의 payload에 저장된 값을 가지고 오고자 한다면 Principal로 상속하여 정의했던 클래스를 call.principal<데이터형>()으로 가져오면 된다. 
+서버에서 JWT 토큰을 생성하여 클라이언트로 보내고자 한다면 JwtHelper.buildToken()에 Principal로 상속된 dataclass를 넘긴다. 그러면 수신된 토큰 정보를 가지고 클라이언트에서는 http header의 Authorization 영역(Authorization: Bearer 토큰)에서 대입시켜 통신한다. 
+그리고 서버에서 클라이언트에서 보내온 JWT Token의 payload에 저장된 값을 액세스하고자 한다면 Principal로 상속하여 정의했던 클래스를 call.principal<데이터형>()으로 가져오면 된다. 
 ~~~kotlin
 
 private fun Routing.authRouting(){
