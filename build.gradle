@@ -52,7 +52,6 @@ dependencies {
     implementation("com.h2database:h2:2.1.210")
     implementation("mysql:mysql-connector-java:8.0.28")
     implementation("me.liuwj.ktorm:ktorm-core:3.1.0")
-    implementation("org.jetbrains.exposed:exposed-core:0.37.3")
-
+    //implementation("org.jetbrains.exposed:exposed-core:0.37.3")
 
 }
