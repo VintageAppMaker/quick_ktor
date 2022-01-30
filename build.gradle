@@ -23,9 +23,11 @@ sourceSets {
 }
 
 repositories {
+    mavenCentral()
     mavenLocal()
     jcenter()
     maven { url 'https://kotlin.bintray.com/ktor' }
+
 }
 
 dependencies {
@@ -38,9 +40,19 @@ dependencies {
     implementation "io.ktor:ktor-gson:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
 
+    // 인증
     implementation "io.ktor:ktor-auth:$ktor_version"
     implementation "io.ktor:ktor-auth-jwt:$ktor_version"
     implementation "io.ktor:ktor-server-sessions:$ktor_version"
 
+
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
+
+    // db
+    implementation("com.h2database:h2:2.1.210")
+    implementation("mysql:mysql-connector-java:8.0.28")
+    implementation("me.liuwj.ktorm:ktorm-core:3.1.0")
+    implementation("org.jetbrains.exposed:exposed-core:0.37.3")
+
+
 }
