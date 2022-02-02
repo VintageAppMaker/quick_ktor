@@ -25,17 +25,19 @@ private fun testNativeSQL(database: Database) {
     // native sql
     val names = database.useConnection { conn ->
         val sql = """
-        select name from t_user
+        select name, password from t_user
         where name like ?
         order by id
     """
 
         conn.prepareStatement(sql).use { statement ->
             statement.setString(1, "user%")
-            statement.executeQuery().asIterable().map { it.getString(1) }
+            statement.executeQuery().asIterable().map {
+                listOf<String>(it.getString(1), it.getString(2))
+            }
         }
     }
-    names.forEach { println("native : $it") }
+    names.forEach { println("native : ${it[0]} : ${it[1]}") }
 }
 
 private fun testDSL(database: Database) {
