@@ -60,29 +60,29 @@ ktorm, mysql, h2 설정
    ~~~
    
    여러개 테이블 join 및 결과값 처리는 공식문서에서 다음과 같이 예를 제시하고 있다.
-~~~ kotlin
-
-data class Names(val name: String?, val managerName: String?, val departmentName: String?)
-
-val emp = Employees.aliased("emp")
-val mgr = Employees.aliased("mgr")
-val dept = Departments.aliased("dept")
-
-val results = database
-    .from(emp)
-    .leftJoin(dept, on = emp.departmentId eq dept.id)
-    .leftJoin(mgr, on = emp.managerId eq mgr.id)
-    .select(emp.name, mgr.name, dept.name)
-    .orderBy(emp.id.asc())
-    .map { row ->
-        Names(
-            name = row[emp.name],
-            managerName = row[mgr.name],
-            departmentName = row[dept.name]
-       )
-    }
-
-~~~
+    ~~~ kotlin
+    
+    data class Names(val name: String?, val managerName: String?, val departmentName: String?)
+    
+    val emp = Employees.aliased("emp")
+    val mgr = Employees.aliased("mgr")
+    val dept = Departments.aliased("dept")
+    
+    val results = database
+        .from(emp)
+        .leftJoin(dept, on = emp.departmentId eq dept.id)
+        .leftJoin(mgr, on = emp.managerId eq mgr.id)
+        .select(emp.name, mgr.name, dept.name)
+        .orderBy(emp.id.asc())
+        .map { row ->
+            Names(
+                name = row[emp.name],
+                managerName = row[mgr.name],
+                departmentName = row[dept.name]
+           )
+        }
+    
+    ~~~
 
 3. native sql 사용하기
    
