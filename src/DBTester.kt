@@ -50,6 +50,7 @@ private fun testDSL(database: Database) {
     for (row in database.from(UserDB).select()) {
         println("name => ${row[UserDB.name]} password => ${row[UserDB.password]} ")
     }
+
 }
 
 fun main() {
