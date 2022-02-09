@@ -54,4 +54,9 @@ dependencies {
     implementation("me.liuwj.ktorm:ktorm-core:3.1.0")
     //implementation("org.jetbrains.exposed:exposed-core:0.37.3")
 
+
+    // kodein
+    implementation("org.kodein.di:kodein-di-jvm:7.0.0")
+    implementation("org.kodein.di:kodein-di-framework-ktor-server-jvm:7.0.0")
+
 }
