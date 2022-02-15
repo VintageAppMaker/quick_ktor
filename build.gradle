@@ -52,6 +52,17 @@ dependencies {
     implementation("com.h2database:h2:2.1.210")
     implementation("mysql:mysql-connector-java:8.0.28")
     implementation("me.liuwj.ktorm:ktorm-core:3.1.0")
-    //implementation("org.jetbrains.exposed:exposed-core:0.37.3")
 
+    // hikari(connection pool)
+    implementation "com.zaxxer:HikariCP:3.4.5"
+
+    // di(kodein)
+    implementation "org.kodein.di:kodein-di-framework-ktor-server-jvm:7.0.0"
+
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }

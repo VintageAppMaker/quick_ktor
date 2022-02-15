@@ -8,6 +8,8 @@ import io.ktor.http.*
 import io.ktor.html.*
 import kotlinx.html.*
 import com.github.mustachejava.DefaultMustacheFactory
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
 import io.ktor.features.*
@@ -15,9 +17,42 @@ import io.ktor.gson.*
 import io.ktor.http.content.*
 import io.ktor.mustache.Mustache
 import io.ktor.mustache.MustacheContent
+import me.liuwj.ktorm.database.Database
+import me.liuwj.ktorm.database.asIterable
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.ktor.di
+import org.kodein.di.singleton
+
 import java.io.File
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+fun DI.MainBuilder.bindServices(){
+    bind<DBService>() with singleton { DBService() }
+}
+
+// hikari를 통한 DB 환경설정
+var database : Database? =null
+fun Application.initDB() {
+
+    fun hikariConfig(): HikariDataSource {
+        val config = HikariConfig()
+        config.driverClassName = "com.mysql.cj.jdbc.Driver"
+        config.jdbcUrl = "jdbc:mysql://localhost:3306/ktorm"
+
+        config.username ="root"
+        config.password ="root"
+
+        config.maximumPoolSize = 3
+        config.isAutoCommit = false
+        config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+        config.validate()
+        return HikariDataSource(config)
+    }
+
+    database = Database.connect(hikariConfig())
+}
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
@@ -53,6 +88,14 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
+    // DI 바인딩 처리(kodein)
+    di {
+        bindServices()
+    }
+
+    // hikary(DB) 초기화
+    initDB()
+
     routing {
         logRoute()
         dslRoute()
@@ -61,6 +104,7 @@ fun Application.module(testing: Boolean = false) {
         requestRoute()
         responseEtcRoute()
         authRouting()
+        dbRoute()
     }
 }
 // response 관련
@@ -194,6 +238,13 @@ private fun Routing.authRouting(){
 }
 
 
+// DB * connection example
+private fun Routing.dbRoute() {
+    val dbServ by di().instance<DBService>()
+    get("/db/hikari") {
+        call.respond(dbServ.getAll())
+    }
+}
 
 // example data
 val  userList : MutableList<User> = mutableListOf()
