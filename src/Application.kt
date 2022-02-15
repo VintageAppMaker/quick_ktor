@@ -9,6 +9,8 @@ import io.ktor.html.*
 import kotlinx.html.*
 import com.github.mustachejava.DefaultMustacheFactory
 import com.psw.db.DBService
+import com.psw.db.database
+import com.psw.db.initDB
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.auth.*
@@ -32,27 +34,6 @@ fun DI.MainBuilder.bindServices(){
     bind<DBService>() with singleton { DBService() }
 }
 
-// hikari를 통한 DB 환경설정
-var database : Database? =null
-fun Application.initDB() {
-
-    fun hikariConfig(): HikariDataSource {
-        val config = HikariConfig()
-        config.driverClassName = "com.mysql.cj.jdbc.Driver"
-        config.jdbcUrl = "jdbc:mysql://localhost:3306/ktorm"
-
-        config.username ="root"
-        config.password ="root"
-
-        config.maximumPoolSize = 3
-        config.isAutoCommit = false
-        config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
-        config.validate()
-        return HikariDataSource(config)
-    }
-
-    database = Database.connect(hikariConfig())
-}
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
