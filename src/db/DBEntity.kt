@@ -1,4 +1,4 @@
-package com.psw
+package com.psw.db
 
 import me.liuwj.ktorm.schema.Table
 import me.liuwj.ktorm.schema.varchar

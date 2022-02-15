@@ -1,4 +1,4 @@
-package com.psw
+package com.psw.db
 
 import me.liuwj.ktorm.database.Database
 import me.liuwj.ktorm.database.asIterable
@@ -35,8 +35,8 @@ private fun testNativeSQL(database: Database) {
 private fun testDSL(database: Database) {
     // 값 입력(DSL)
     database.insert(UserDB) {
-        set(it.name, "user@${Calendar.getInstance().timeInMillis}".run { substring(0, length - 1) })
-        set(it.password, "${Calendar.getInstance().timeInMillis}.pswd".run { substring(0, length - 1) })
+        set(UserDB.name, "user@${Calendar.getInstance().timeInMillis}".run { substring(0, length - 1) })
+        set(UserDB.password, "${Calendar.getInstance().timeInMillis}.pswd".run { substring(0, length - 1) })
     }
 
     for (row in database.from(UserDB).select()) {

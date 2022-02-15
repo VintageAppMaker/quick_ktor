@@ -8,6 +8,7 @@ import io.ktor.http.*
 import io.ktor.html.*
 import kotlinx.html.*
 import com.github.mustachejava.DefaultMustacheFactory
+import com.psw.db.DBService
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.auth.*
@@ -18,7 +19,6 @@ import io.ktor.http.content.*
 import io.ktor.mustache.Mustache
 import io.ktor.mustache.MustacheContent
 import me.liuwj.ktorm.database.Database
-import me.liuwj.ktorm.database.asIterable
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
@@ -57,21 +57,26 @@ fun Application.initDB() {
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
+
+    // Mustache(html 템플릿 엔진) 플러그인
     install(Mustache) {
         mustacheFactory = DefaultMustacheFactory("templates/mustache")
     }
 
+    // JSON 직렬화 플러그인
     install(ContentNegotiation) {
         gson {
         }
     }
 
+    // log 플러그인
     install(CallLogging) {
         filter { call ->
             call.request.path().startsWith("/html-dsl")
         }
     }
 
+    // jwt 인증 플러그인
     install(Authentication) {
         jwt {
             verifier(JwtHelper.verifier)
@@ -96,6 +101,7 @@ fun Application.module(testing: Boolean = false) {
     // hikary(DB) 초기화
     initDB()
 
+    // 라우팅 등록
     routing {
         logRoute()
         dslRoute()
