@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5b3bfe48-a58e-4691-a338-b839987c58dc",
+		"_postman_id": "57a97af6-ec42-4b46-9d83-3d7005cca44e",
 		"name": "KTOR공부",
 		"description": "### KTOR Quick Start\n> KTOR 예제를 테스트하기 위한 Client\n\n- 홈\n- Gson\n- html-mustache",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -277,6 +277,29 @@
 					"port": "8080",
 					"path": [
 						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DB Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/db/hikari",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"db",
+						"hikari"
 					]
 				}
 			},
