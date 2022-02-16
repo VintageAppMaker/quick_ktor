@@ -2,9 +2,7 @@ package com.psw.db
 
 import me.liuwj.ktorm.database.Database
 import me.liuwj.ktorm.database.asIterable
-import me.liuwj.ktorm.dsl.from
-import me.liuwj.ktorm.dsl.insert
-import me.liuwj.ktorm.dsl.select
+import me.liuwj.ktorm.dsl.*
 import java.util.*
 
 fun testDb(){
@@ -39,8 +37,27 @@ private fun testDSL(database: Database) {
         set(UserDB.password, "${Calendar.getInstance().timeInMillis}.pswd".run { substring(0, length - 1) })
     }
 
+    // select 예제 (1)
     for (row in database.from(UserDB).select()) {
-        println("name => ${row[UserDB.name]} password => ${row[UserDB.password]} ")
+        println("DSL #1 :name => ${row[UserDB.name]} password => ${row[UserDB.password]} ")
+    }
+
+    // select 예제 (2)
+    data class selectData(val name: String?, val passwd: String?)
+    val results = database
+        .from(UserDB)
+        .select()
+        .where { ( UserDB.name like "%jerry%") }
+        .orderBy(UserDB.name.asc())
+        .map { row ->
+            selectData(
+                name =   row[UserDB.name],
+                passwd = row[UserDB.password]
+            )
+        }
+
+    results.forEach {
+        println("DSL #2 :name => ${it.name} password => ${it.passwd} ")
     }
 
 }
