@@ -20,6 +20,7 @@ import io.ktor.gson.*
 import io.ktor.http.content.*
 import io.ktor.mustache.Mustache
 import io.ktor.mustache.MustacheContent
+import io.ktor.sessions.*
 import me.liuwj.ktorm.database.Database
 import org.kodein.di.DI
 import org.kodein.di.bind
@@ -74,6 +75,11 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
+    // session 저장
+    install(Sessions) {
+        cookie<UserSession>("user_session")
+    }
+
     // DI 바인딩 처리(kodein)
     di {
         bindServices()
@@ -92,6 +98,7 @@ fun Application.module(testing: Boolean = false) {
         responseEtcRoute()
         authRouting()
         dbRoute()
+        sessionRoute()
     }
 }
 // response 관련
@@ -224,7 +231,6 @@ private fun Routing.authRouting(){
     }
 }
 
-
 // DB * connection example
 private fun Routing.dbRoute() {
     val dbServ by di().instance<DBService>()
@@ -233,9 +239,31 @@ private fun Routing.dbRoute() {
     }
 }
 
+// Session example
+private fun Routing.sessionRoute() {
+    get("/session/set") {
+        call.sessions.set(UserSession(id = "123abc", count = 0))
+        call.respondRedirect("/session")
+    }
+
+    get("/session") {
+        var userSession = call.sessions.get<UserSession>()
+        call.sessions.set(userSession!!.copy(count = userSession.count + 1))
+
+        call.respondText ("${userSession!!.count}")
+    }
+
+    get("/session/clear") {
+        call.sessions.clear<UserSession>()
+        call.respondRedirect("/")
+    }
+}
+
+
 // example data
 val  userList : MutableList<User> = mutableListOf()
 data class MustacheUser(val id: Int, val name: String)
 data class User(val id: Int, val name: String)
 
+data class UserSession(val id: String, val count: Int)
 
